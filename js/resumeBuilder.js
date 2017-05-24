@@ -51,8 +51,8 @@ var eduObj = {
 }
 
 $(function() {
-	var objNames = Object.getOwnPropertyNames(bio.contactInfo);
-
+	var objNames = Object.getOwnPropertyNames(eduObj.schools[0]);
+	var objValues;
 	//variables of personal information
 	var formattedGeneral = HTMLheaderName.replace("%data%", bio.name);
 	formattedGeneral += HTMLheaderRole.replace("%data%", bio.role);
@@ -79,6 +79,14 @@ $(function() {
 	$(".work-entry").append(HTMLworkLocation.replace("%data%", workObj.workLocation));
 	$(".work-entry").append(HTMLworkDescription.replace("%data%", workObj.LworkDescription));
 	$("#education").append(HTMLschoolStart);
+
+	for (var i = 0; i <= eduObj.schools.length; i++) {
+		objValues = Object.values(eduObj.schools[i]);
+	 	for (var i = 0; i <= objValues.length; i++) {
+	 		objValues[i]
+	 		$(".education-entry").append(HTMLschoolName.replace("%data%", objValues[i])) + HTMLschoolDegree.replace("%data%", objValues[i]);
+	 	}
+	}
 	$(".education-entry").append(HTMLschoolName.replace("%data%", eduObj.schools[0]) + HTMLschoolDegree.replace("%data%", eduObj["schoolDegree"]));
 	$(".education-entry").append(HTMLschoolDates.replace("%data%", eduObj["schoolDates"]));
 	$(".education-entry").append(HTMLschoolLocation.replace("%data%", eduObj["schoolLocation"]));
