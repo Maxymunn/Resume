@@ -15,13 +15,19 @@ var bio = {
 	"welcomeMessage" : "Hey there, welcome to my resumé!!"
 };
 
-var workObj = {
+var workObj = [{
 	"workEmployer" : "HSBC Global Technology",
 	"workTitle" : "Junior Software Analyst",
 	"workDates" : "February, 2015 - Current",
 	"workLocation" : "Curitiba - PR",
 	"LworkDescription" : "I've been working since 2016 as a software analyst using the web language."
-};
+},{
+	"workEmployer" : "Advocacia",
+	"workTitle" : "Front-end Developer",
+	"workDates" : "June - December, 2014",
+	"workLocation" : "Curitiba - PR",
+	"LworkDescription" : "I've worked as a Front-end more like web designer, creating layouts for the web application."
+}];
 
 var eduObj = {
 	"schools": [{
@@ -50,8 +56,15 @@ var eduObj = {
 	}]
 }
 
+var projectObj = [{
+	"projectTitle" : "Resume",
+	"projectDates" : "May",
+	"projectDescription" : "This is a studing project provided by Udacity in their JavaScript Basics",
+	"projectImage" : "http://i.imgur.com/pWU1Xbl.png"
+}]
+
 $(function() {
-	
+
 	var objNames = Object.getOwnPropertyNames(eduObj.schools[0]);
 	var objValues;
 	//variables of personal information
@@ -65,6 +78,7 @@ $(function() {
 	var formattedWelcomeMsg = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
 	var formattedSkills = HTMLskills.replace("%data%", bio.skills);
 
+	//begin of bio object
 	$("#header").prepend(formattedGeneral);
 	$("#topContacts").append(formattedContact);
 	$("#header").append(formattedBioPic);
@@ -74,20 +88,46 @@ $(function() {
 		$("#skills").append(HTMLskills.replace("%data%", bio.skills[i]));
 	}
 
-	$("#workExperience").append(HTMLworkStart);
-	$(".work-entry").append(HTMLworkEmployer.replace("%data%", workObj["workEmployer"]) + HTMLworkTitle.replace("%data%", workObj["workTitle"]));
-	$(".work-entry").append(HTMLworkDates.replace("%data%", workObj["workDates"]));
-	$(".work-entry").append(HTMLworkLocation.replace("%data%", workObj.workLocation));
-	$(".work-entry").append(HTMLworkDescription.replace("%data%", workObj.LworkDescription));
-	$("#education").append(HTMLschoolStart);
+	//begin of projects array
+	$("#projects").append(HTMLprojectStart);
+	for (var i = projectObj.length - 1; i >= 0; i--) {
+		objValues = projectObj[i];
+		$(".project-entry").append(HTMLprojectTitle.replace("%data%", objValues.projectTitle));
+		$(".project-entry").append(HTMLprojectDates.replace("%data%", objValues.projectDates));
+		$(".project-entry").append(HTMLprojectDescription.replace("%data%", objValues.projectDescription));
+		$(".project-entry").append(HTMLprojectImage.replace("%data%", objValues.projectImage));
+		$("img").css({"width":"200px","height":"200px"});
+	}
 
+
+	//begin of work array
+	$("#workExperience").append(HTMLworkStart);
+	for (var i = workObj.length - 1; i >= 0; i--) {
+		objValues = workObj[i];
+		$(".work-entry").append(HTMLworkEmployer.replace("%data%", objValues.workEmployer) + HTMLworkTitle.replace("%data%", objValues.workTitle));
+		$(".work-entry").append(HTMLworkDates.replace("%data%", objValues.workDates));
+		$(".work-entry").append(HTMLworkLocation.replace("%data%", objValues.workLocation));
+		$(".work-entry").append(HTMLworkDescription.replace("%data%", objValues.LworkDescription));
+	}
+	//begin of education schools array
+	$("#education").append(HTMLschoolStart);
 	for (var i = 0; i < eduObj.schools.length; i++) {
 		objValues = eduObj.schools[i];
-	
+
 	 	$(".education-entry").append(HTMLschoolName.replace("%data%", objValues.schoolName) + HTMLschoolDegree.replace("%data%", objValues.schoolDegree));
 		$(".education-entry").append(HTMLschoolDates.replace("%data%", objValues.schoolDates));
 		$(".education-entry").append(HTMLschoolLocation.replace("%data%", objValues.schoolLocation));
 		$(".education-entry").append(HTMLschoolMajor.replace("%data%", objValues.schoolMajor));
+	}
+
+	//begin of education online courses array
+ 	$(".education-entry").append(HTMLonlineClasses.replace("%data%", objValues.schoolName));
+	for (var i = 0; i < eduObj.onlineCourses.length; i++) {
+		objValues = eduObj.onlineCourses[i];
+
+ 		$(".education-entry").append(HTMLonlineTitle.replace("%data%", objValues.onlineTitle) + HTMLonlineSchool.replace("%data%", objValues.onlineSchool));
+		$(".education-entry").append(HTMLonlineDates.replace("%data%", objValues.onlineDates));
+		$(".education-entry").append(HTMLonlineURL.replace("%data%", objValues.onlineURL).replace("#", objValues.onlineURL));
 	}
 
 	if($(".flex-item").length === 0) {
@@ -108,7 +148,7 @@ $(function() {
 	if($(".flex-item").length === 0) {
 		$("#lets-connect").hide();
 	}
-	if($("#map") === null) {
-		$("#mapDiv").show();
+	if($("#map").length === 0) {
+		$("#mapDiv").hide();
 	}
 });
